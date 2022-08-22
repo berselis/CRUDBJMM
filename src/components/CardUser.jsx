@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CardUser = ({ user, delUserHandler, editUserHandler }) => {
+const CardUser = ({ user, delUserHandler, getUserHandler }) => {
     const { id, first_name, last_name, email, birthday } = user;
 
     return (
@@ -18,7 +18,7 @@ const CardUser = ({ user, delUserHandler, editUserHandler }) => {
                 </div>
                 <div className='icons-card'>
                     <div className='icon'>
-                        <a onClick={editUserHandler} data-id={id} className='edit'>
+                        <a onClick={getUserHandler} data-id={id} className='edit'>
                             <i className="bi bi-pencil-square"></i>
                             <label>Edit</label>
                         </a>

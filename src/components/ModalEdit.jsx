@@ -1,34 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 const ModalEdit = ({ user, show, handleHidde, submitEdituser }) => {
-    const { id, first_name, last_name, email, password, birthday } = user;
-
     const onSubmit = (data) => {
         submitEdituser(data)
         reset();
-        
     }
     const { register, handleSubmit, reset } = useForm();
-
     const handleShowIcon = (e) => {
         e.target.value != '' ? e.target.parentElement.classList.add('inside-value')
             : e.target.parentElement.classList.remove('inside-value');
     }
-
     useEffect(() => {
-        reset({
-            'id': id,
-            'first_name': first_name,
-            'last_name': last_name,
-            'email': email,
-            'password': password,
-            'birthday': birthday
-        })
-
-
-
+        reset(user)
     }, [user])
 
     return (
@@ -71,7 +56,7 @@ const ModalEdit = ({ user, show, handleHidde, submitEdituser }) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                        <button type="submit" className="btn btn-success">Save</button>
+                        <button type="submit" className="btn btn-success">Save changes</button>
                     </div>
                 </Modal.Footer>
             </form>

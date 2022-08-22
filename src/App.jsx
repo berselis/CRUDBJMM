@@ -4,9 +4,11 @@ import bootstrapLogo from './assets/bootstrap-logo-shadow.png';
 import './App.css';
 import BannerUsers from './components/BannerUsers';
 import CardUser from './components/CardUser';
+import ModalEdit from './components/ModalEdit';
+import ModalDialog from './components/ModalDialog';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import ModalEdit from './components/ModalEdit';
+
 
 
 function App() {
@@ -14,10 +16,11 @@ function App() {
 
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({});
-  const [delUser, setDelUser] = useState();
   const [editUser, setEditUser] = useState({});
   const [viewUser, setViewUser] = useState({});
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [delUserConfirm, setDelUser] = useState({});
+  const [dataDelUser, setDataDelUser] = useState({});
 
 
   const submitNewUser = (data) => {
@@ -26,38 +29,42 @@ function App() {
       .catch(msj => console.log(msj))
   }
   const submitEdituser = (data) => {
-
-    console.log(data);
+    const urlEdit = `${url}${data.id}/`;
+    axios.put(urlEdit, data)
+      .then(_ => setEditUser(data))
+      .catch(msj => console.log(msj))
     setShowModalEdit(false);
   }
-
-  const delUserHandler = (e) => {
-    const id = e.target.parentElement.getAttribute('data-id');
-    const delUrl = `${url}${id}/`;
-    axios.delete(delUrl)
-      .then(_ => setDelUser(id))
-      .catch(msj => console.log(msj))
-  }
-  const editUserhandler = (e) => {
-    const id = e.target.parentElement.getAttribute('data-id');
-    const getUrl = `${url}${id}/`;
+ 
+  const handleHidde = () => setShowModalEdit(false);
+  const getUserHandler = (e) => {
+    const getUrl = `${url}${e.target.parentElement.getAttribute('data-id')}/`;
     axios.get(getUrl)
       .then(res => {
         setViewUser(res.data);
         setShowModalEdit(true);
-
       })
       .catch(msj => console.log(msj))
   }
-  const handleHidde = () => setShowModalEdit(false);
+  const delUserHandler = (e) => {
+    const dataUser = {
+      'id': e.target.parentElement.getAttribute('data-id'),
+      'url': `${url}${e.target.parentElement.getAttribute('data-id')}/`,
+      'show': true
+    }
+    setDataDelUser(dataUser);
+  }
+  const delUserConfirmHandler = (data) => {
+    setDelUser(data);
+  }
+
+
 
   useEffect(() => {
     axios.get(url)
       .then(res => setUsers(res.data))
       .catch(msj => console.log(msj))
-  }, [newUser, delUser])
-
-
+  }, [newUser, editUser, delUserConfirm])
 
   return (
     <>
@@ -73,26 +80,20 @@ function App() {
       </nav>
       <div className='container grand'>
         <div className='row layout-center'>
-
+          <ModalDialog dataUser={dataDelUser} onConfirm={delUserConfirmHandler}/>
           <ModalEdit user={viewUser} show={showModalEdit} handleHidde={handleHidde} submitEdituser={submitEdituser} />
-
-
           <BannerUsers cantUser={users.length} submitNewUser={submitNewUser} />
-
-
           <div className='col-md-12 col-sm-12 col-xs-12'>
             <div className='container'>
               <div className='row content-card-user'>
                 {
                   users?.map(user => {
-                    return <CardUser key={user.id} user={user} delUserHandler={delUserHandler} editUserHandler={editUserhandler} />
+                    return <CardUser key={user.id} user={user} delUserHandler={delUserHandler} getUserHandler={getUserHandler} />
                   })
                 }
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
       <footer className='footer navbar-dark bg-dark'> </footer>
