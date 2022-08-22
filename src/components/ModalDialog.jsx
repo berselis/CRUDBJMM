@@ -15,10 +15,6 @@ const ModalDialog = ({ dataUser, onConfirm }) => {
             })
             .catch(msj => console.log(msj))
     }
-
-
-
-
     useEffect(() => {
         if (dataUser) setShowModal(dataUser.show);
     }, [dataUser])
@@ -31,10 +27,7 @@ const ModalDialog = ({ dataUser, onConfirm }) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
                 <h5><strong>¿Delete user?</strong></h5>
-
-
             </Modal.Body>
             <Modal.Footer>
                 <div className="btn-group">

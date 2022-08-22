@@ -24,6 +24,7 @@ function App() {
 
 
   const submitNewUser = (data) => {
+    console.log(data, url)
     axios.post(url, data)
       .then(_ => setNewUser(data))
       .catch(msj => console.log(msj))
@@ -96,7 +97,7 @@ function App() {
           </div>
         </div>
       </div>
-      <footer className='footer navbar-dark bg-dark'> </footer>
+      <footer className='footer navbar-dark bg-dark'></footer>
     </>
   )
 }
