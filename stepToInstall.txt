@@ -1,0 +1,19 @@
+-npm create vite@latest
+
+[project-name]
+
+cd to project-name
+
+npm install  //To install all dependece
+
+npm install bootstrap@5.2.0
+npm install @popperjs/core
+
+MAIN
+import * as bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+
+
