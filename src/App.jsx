@@ -18,12 +18,17 @@ function App() {
   const [editUser, setEditUser] = useState({});
   const [viewUser, setViewUser] = useState({});
   const [showModalEdit, setShowModalEdit] = useState(false);
-  
+
 
   const submitNewUser = (data) => {
     axios.post(url, data)
       .then(_ => setNewUser(data))
       .catch(msj => console.log(msj))
+  }
+  const submitEdituser = (data) => {
+
+    console.log(data);
+    setShowModalEdit(false);
   }
 
   const delUserHandler = (e) => {
@@ -69,8 +74,8 @@ function App() {
       <div className='container grand'>
         <div className='row layout-center'>
 
-          <ModalEdit user={viewUser} show={showModalEdit} handleHidde={handleHidde}/>
-        
+          <ModalEdit user={viewUser} show={showModalEdit} handleHidde={handleHidde} submitEdituser={submitEdituser} />
+
 
           <BannerUsers cantUser={users.length} submitNewUser={submitNewUser} />
 
